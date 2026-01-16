@@ -3,12 +3,8 @@ import { Construct } from "constructs";
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
 import { Distribution } from "aws-cdk-lib/aws-cloudfront";
 import { S3BucketOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
-import {
-  Certificate,
-  ICertificate,
-  ValidationMethod,
-} from "aws-cdk-lib/aws-certificatemanager";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 
 export class CdkStack extends cdk.Stack {
   private subDomainName = "shared.vpurush.com";
@@ -28,6 +24,12 @@ export class CdkStack extends cdk.Stack {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
     });
 
+    // Deploy the contents of the 'out' folder to the nextJSAppBucket
+    new BucketDeployment(this, "DeployNextJSApp", {
+      sources: [Source.asset("../out")],
+      destinationBucket: nextJSAppBucket,
+    });
+
     // Create CloudFront distribution
     const distribution = new Distribution(
       this,
@@ -39,7 +41,7 @@ export class CdkStack extends cdk.Stack {
         },
         additionalBehaviors: {
           "/assets/*": {
-            origin: S3BucketOrigin.withOriginAccessControl(assetBucket),            
+            origin: S3BucketOrigin.withOriginAccessControl(assetBucket),
           },
         },
         certificate: this.getCertificate(),

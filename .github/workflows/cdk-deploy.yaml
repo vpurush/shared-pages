@@ -39,13 +39,10 @@ jobs:
       - name: Install AWS CDK
         run: npm i -g aws-cdk
 
-      # - name: Install linux dependencies
-      #   run: |
-      #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 
-      #     brew install openssl
-      #     # dpkg --add-architecture i386
-      #     # apt-get update
-      #     # apt-get install libssl-dev:i386
+      - name: Build NextJS
+        run: |
+          npm install
+          npm run build
 
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@master
