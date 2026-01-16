@@ -57,7 +57,7 @@ export class CdkStack extends cdk.Stack {
     return Certificate.fromCertificateArn(
       this,
       "SiteCertificate",
-      "arn:aws:acm:us-east-1:175468255336:certificate/c2144381-82ed-44f9-9232-29416b8426d7"
+      "arn:aws:acm:us-east-1:175468255336:certificate/958496a7-bdc0-46fe-944e-e7aa6ded0624"
     );
   }
 }

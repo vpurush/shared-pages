@@ -63,4 +63,4 @@ jobs:
           # echo "Synth stack"
           # npx cdk synth
           echo "Deploy stack"
-          npx cdk deploy -- --all --require-approval=never --yes
+          npx cdk deploy --all --require-approval never --yes
